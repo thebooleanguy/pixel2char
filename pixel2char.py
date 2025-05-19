@@ -22,7 +22,6 @@ try:
         os.system('clear')
         for y in range(height):
             for x in range(width):
-                ascii_art.append(0)
                 brightness = grayscaled_frame[y][x]
                 index = int(brightness / 16)
                 index = min(index, len(chars) - 1)
