@@ -4,10 +4,26 @@ import cv2
 cam = cv2.VideoCapture(0)
 
 ret, frame = cam.read()
-print(frame.shape)
 
-downscaled_frame = cv2.resize(frame, (64, 48), interpolation = cv2.INTER_AREA)
+width = 40
+height =40
+downscaled_frame = cv2.resize(frame, (width, height), interpolation = cv2.INTER_AREA)
 grayscaled_frame = cv2.cvtColor(downscaled_frame, cv2.COLOR_BGR2GRAY)
+
+# Map to ASCII
+chars = "█▓▒░@#%&*+=-:. "  # 16 levels
+ascii_art = [[0 for i in range(height)] for j in range(width)]
+
+for y in range(height):
+    for x in range(width):
+        ascii_art.append(0)
+        brightness = grayscaled_frame[y][x]
+        index = int(brightness / 16)
+        index = min(index, len(chars) - 1)
+        ascii_char = chars[index]
+        ascii_art[y][x] = ascii_char
+        print(ascii_char,end="")
+    print()
 
 # Output frame in a GUI
 cv2.imshow("DownscaleTest", grayscaled_frame)
